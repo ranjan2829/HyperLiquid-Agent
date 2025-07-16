@@ -66,11 +66,6 @@ class VectorStore:
             
         except Exception as e:
             print(f"Error storing vectors: {e}")
-            # Debug: Print the first row to see what's causing issues
-            if upsert_rows:
-                print("Sample row structure:")
-                for key, value in upsert_rows[0].items():
-                    print(f"  {key}: {type(value).__name__} = {value}")
             raise
     
     def search(self, query: str, top_k: int = 10) -> List[Dict[str, Any]]:
@@ -83,9 +78,9 @@ class VectorStore:
         try:
             namespace = self.client.namespace(self.namespace)
             
-            # Use the query method
+            # Use the correct Turbopuffer API with rank_by parameter
             results = namespace.query(
-                vector=query_embedding,
+                rank_by=("vector", "ANN", query_embedding),
                 top_k=top_k,
                 include_attributes=True  # Include all metadata
             )
@@ -93,28 +88,41 @@ class VectorStore:
             # Convert results to the expected format
             formatted_results = []
             for row in results.rows:
-                # Parse JSON strings back to objects where needed
-                hyperliquid_tokens = row.attributes.get('hyperliquid_tokens', '[]')
-                if isinstance(hyperliquid_tokens, str):
-                    try:
-                        hyperliquid_tokens = json.loads(hyperliquid_tokens)
-                    except:
-                        hyperliquid_tokens = []
-                
-                formatted_results.append({
-                    'id': row.id,
-                    'text': row.attributes.get('text', ''),
-                    'score': row.dist,
-                    'metadata': {
-                        'title': row.attributes.get('title', ''),
-                        'url': row.attributes.get('url', ''),
-                        'published_at': row.attributes.get('published_at', ''),
-                        'channel_name': row.attributes.get('channel_name', ''),
-                        'channel_type': row.attributes.get('channel_type', ''),
-                        'source_entity_name': row.attributes.get('source_entity_name', ''),
-                        'hyperliquid_tokens': hyperliquid_tokens
-                    }
-                })
+                # Access row data properly - try different methods
+                try:
+                    # Method 1: Direct attribute access
+                    text = getattr(row, 'text', '')
+                    if not text:
+                        # Method 2: Check if it's a dict-like object
+                        text = row.get('text', '') if hasattr(row, 'get') else ''
+                    
+                    # Get hyperliquid_tokens safely
+                    hyperliquid_tokens = getattr(row, 'hyperliquid_tokens', '[]')
+                    if isinstance(hyperliquid_tokens, str):
+                        try:
+                            hyperliquid_tokens = json.loads(hyperliquid_tokens)
+                        except:
+                            hyperliquid_tokens = []
+                    
+                    formatted_results.append({
+                        'id': row.id,
+                        'text': text,
+                        'score': getattr(row, '$dist', 0.0),
+                        'metadata': {
+                            'title': getattr(row, 'title', ''),
+                            'url': getattr(row, 'url', ''),
+                            'published_at': getattr(row, 'published_at', ''),
+                            'channel_name': getattr(row, 'channel_name', ''),
+                            'channel_type': getattr(row, 'channel_type', ''),
+                            'source_entity_name': getattr(row, 'source_entity_name', ''),
+                            'hyperliquid_tokens': hyperliquid_tokens
+                        }
+                    })
+                except Exception as e:
+                    print(f"Error processing row: {e}")
+                    print(f"Row type: {type(row)}")
+                    print(f"Row dir: {dir(row)}")
+                    continue
             
             return formatted_results
             

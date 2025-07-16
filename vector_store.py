@@ -2,12 +2,15 @@ from turbopuffer import Turbopuffer
 from typing import List, Dict, Any
 import openai
 from config import Config
+import json
+
 config = Config()
 
 class VectorStore:
     def __init__(self):
         self.client = Turbopuffer(
-            api_key=config.TURBOPUFFER_API_KEY
+            api_key=config.TURBOPUFFER_API_KEY,
+            region="aws-us-east-1"
         )
         self.namespace = "hyperliquid-mentions"
         self.openai_client = openai.OpenAI(api_key=config.OPENAI_API_KEY)
@@ -18,9 +21,11 @@ class VectorStore:
         if not chunks:
             print("No chunks to store")
             return
+        
         texts = [chunk['text'] for chunk in chunks]
         embeddings = self._generate_embeddings(texts)
         upsert_rows = []
+        
         for chunk, embedding in zip(chunks, embeddings):
             row = {
                 'id': chunk['id'],
@@ -29,9 +34,21 @@ class VectorStore:
                 'mention_id': chunk['mention_id'],
                 'type': chunk['type']
             }
-            # Add all metadata fields
+            
+            # Add metadata fields with proper type conversion
             for key, value in chunk['metadata'].items():
-                row[key] = value
+                # Convert complex types to strings for Turbopuffer compatibility
+                if isinstance(value, (list, dict)):
+                    row[key] = json.dumps(value)
+                elif isinstance(value, bool):
+                    row[key] = value
+                elif isinstance(value, (int, float)):
+                    row[key] = value
+                elif value is None:
+                    row[key] = None
+                else:
+                    # Convert everything else to string
+                    row[key] = str(value)
             
             upsert_rows.append(row)
         
@@ -49,6 +66,11 @@ class VectorStore:
             
         except Exception as e:
             print(f"Error storing vectors: {e}")
+            # Debug: Print the first row to see what's causing issues
+            if upsert_rows:
+                print("Sample row structure:")
+                for key, value in upsert_rows[0].items():
+                    print(f"  {key}: {type(value).__name__} = {value}")
             raise
     
     def search(self, query: str, top_k: int = 10) -> List[Dict[str, Any]]:
@@ -71,6 +93,14 @@ class VectorStore:
             # Convert results to the expected format
             formatted_results = []
             for row in results.rows:
+                # Parse JSON strings back to objects where needed
+                hyperliquid_tokens = row.attributes.get('hyperliquid_tokens', '[]')
+                if isinstance(hyperliquid_tokens, str):
+                    try:
+                        hyperliquid_tokens = json.loads(hyperliquid_tokens)
+                    except:
+                        hyperliquid_tokens = []
+                
                 formatted_results.append({
                     'id': row.id,
                     'text': row.attributes.get('text', ''),
@@ -82,7 +112,7 @@ class VectorStore:
                         'channel_name': row.attributes.get('channel_name', ''),
                         'channel_type': row.attributes.get('channel_type', ''),
                         'source_entity_name': row.attributes.get('source_entity_name', ''),
-                        'hyperliquid_tokens': row.attributes.get('hyperliquid_tokens', [])
+                        'hyperliquid_tokens': hyperliquid_tokens
                     }
                 })
             

@@ -23,6 +23,7 @@ class DataProcessor:
     def process_jsonl_file(self, file_path: str) -> List[ProcessedMention]:
         """Process JSON file and extract mentions"""
         mentions = []
+        seen_ids = set()  # Track seen IDs to avoid duplicates
         
         with open(file_path, 'r', encoding='utf-8') as file:
             try:
@@ -40,9 +41,17 @@ class DataProcessor:
                         source_entity = mention.get('source_entity', {})
                         hyperliquid_info = mention.get('hyperliquid_info', {})
                         
+                        # Get the ID and check for duplicates
+                        mention_id = publication.get('id', '')
+                        if mention_id in seen_ids:
+                            print(f"Skipping duplicate mention ID: {mention_id}")
+                            continue
+                        
+                        seen_ids.add(mention_id)
+                        
                         # Create processed mention
                         processed_mention = ProcessedMention(
-                            id=publication.get('id', ''),
+                            id=mention_id,
                             title=publication.get('title', ''),
                             summary=publication.get('summary', ''),
                             content=publication.get('content', ''),
@@ -69,13 +78,17 @@ class DataProcessor:
     def create_chunks(self, mentions: List[ProcessedMention]) -> List[Dict[str, Any]]:
         """Create searchable chunks from mentions"""
         chunks = []
+        seen_chunk_ids = set()  # Track seen chunk IDs
         
         for mention in mentions:
             # Create primary chunk from title + summary
             primary_text = f"{mention.title}\n\n{mention.summary}".strip()
-            if primary_text:
+            primary_chunk_id = f"{mention.id}_primary"
+            
+            if primary_text and primary_chunk_id not in seen_chunk_ids:
+                seen_chunk_ids.add(primary_chunk_id)
                 chunks.append({
-                    'id': f"{mention.id}_primary",
+                    'id': primary_chunk_id,
                     'text': primary_text,
                     'mention_id': mention.id,
                     'type': 'primary',
@@ -91,9 +104,11 @@ class DataProcessor:
                 })
             
             # Create content chunk if content exists
-            if mention.content:
+            content_chunk_id = f"{mention.id}_content"
+            if mention.content and content_chunk_id not in seen_chunk_ids:
+                seen_chunk_ids.add(content_chunk_id)
                 chunks.append({
-                    'id': f"{mention.id}_content",
+                    'id': content_chunk_id,
                     'text': mention.content,
                     'mention_id': mention.id,
                     'type': 'content',
@@ -108,4 +123,5 @@ class DataProcessor:
                     }
                 })
         
+        print(f"Created {len(chunks)} unique chunks (removed duplicates)")
         return chunks

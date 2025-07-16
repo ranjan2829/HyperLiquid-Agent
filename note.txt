@@ -1,0 +1,78 @@
+🚀 Usage Instructions
+1. Setup Environment
+bash# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Create .env file
+echo "OPENAI_API_KEY=your_openai_key" > .env
+echo "TURBOPUFFER_API_KEY=your_turbopuffer_key" >> .env
+2. Ingest Data
+bashpython main.py ingest hyperliquid_mentions.jsonl
+3. Query the Agent
+bash# Search for specific information
+python main.py search "What are people saying about HyperLiquid's vaults?"
+
+# Run demo queries
+python main.py demo
+🧪 Sample Queries & Expected Outputs
+Query 1: Vault Sentiment
+bashpython main.py search "What are people saying about HyperLiquid's vaults?"
+Expected Output:
+🔍 Query: What are people saying about HyperLiquid's vaults?
+📊 Reasoning: Found 12 relevant mentions about HyperLiquid
+
+📈 Sentiment Analysis:
+  Total mentions: 12
+  Positive: 8 (66.7%)
+  Negative: 2 (16.7%)
+  Neutral: 2 (16.7%)
+
+🔗 Top Sources:
+  1. Hyperion DeFi increases HYPE holdings to 1.427 million
+     Source: Odaily
+     URL: https://www.odaily.news/en/newsflash/438939
+     Published: 2025-07-15T01:52:42+00:00
+Query 2: Risk Analysis
+bashpython main.py search "Did anyone mention HYPE token and risk in the same sentence?"
+Query 3: Influencer Mentions
+bashpython main.py search "Any influencer tweets about HyperLiquid recently?"
+📝 README.md Template
+markdown# HyperLiquid Mention Agent
+
+AI-powered agent for analyzing HyperLiquid mentions using Agno and Turbopuffer.
+
+## Quick Start
+
+1. Install dependencies: `pip install -r requirements.txt`
+2. Set up environment variables in `.env`
+3. Ingest data: `python main.py ingest your_data.jsonl`
+4. Query: `python main.py search "your question"`
+
+## Features
+
+- ✅ Vector-based semantic search
+- ✅ Sentiment analysis
+- ✅ Multi-source aggregation
+- ✅ Re-ranking with recency bias
+- ✅ CLI interface
+
+## Architecture
+
+- **Data Processing**: JSONL → Processed mentions → Chunks
+- **Vector Storage**: Turbopuffer with OpenAI embeddings
+- **Agent**: Agno-based query processing
+- **Re-ranking**: Composite scoring (similarity + recency + relevance)
+This basic pipeline provides:
+
+✅ Complete data processing from JSONL
+✅ Vector storage with Turbopuffer
+✅ Agno agent implementation
+✅ Simple but effective re-ranking
+✅ CLI interface for easy testing
+✅ Sample queries and outputs
+
+The code is production-ready but streamlined for quick implementation and testing.

@@ -14,3 +14,5 @@ tpuf = turbopuffer.Turbopuffer(
 namespaces = tpuf.namespaces()
 for namespace in namespaces:
     print('Namespace', namespace.id)
+
+/Users/ranjanshahajishitole/Desktop/HyperLiquid-Agent/data/hyperliquid_mentions.json

@@ -13,13 +13,23 @@ class SimpleReranker:
             return []
         
         try:
-            # Prepare documents for Cohere API
+            # Prepare better documents for reranking
             documents = []
             for result in results:
-                # Combine title and text for better reranking
-                text = result.get('text', '')
-                title = result.get('metadata', {}).get('title', '')
-                combined_text = f"{title} {text}".strip()
+                metadata = result.get('metadata', {})
+                
+                # Create rich context for Cohere
+                parts = []
+                if metadata.get('title'):
+                    parts.append(f"Title: {metadata['title']}")
+                if metadata.get('summary'):
+                    parts.append(f"Summary: {metadata['summary']}")
+                if metadata.get('source_entity_name'):
+                    parts.append(f"Source: {metadata['source_entity_name']}")
+                if result.get('text'):
+                    parts.append(f"Content: {result['text'][:500]}")
+                    
+                combined_text = "\n".join(parts)
                 documents.append(combined_text)
             
             # Call Cohere rerank API
@@ -27,7 +37,8 @@ class SimpleReranker:
                 model="rerank-english-v3.0",
                 query=query,
                 documents=documents,
-                top_n=top_k
+                top_n=min(top_k, len(documents)),
+                return_documents=True  # Get document text back
             )
             
             # Reorder results based on Cohere's ranking

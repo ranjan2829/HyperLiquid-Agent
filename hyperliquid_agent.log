@@ -1,0 +1,39 @@
+2025-07-20 11:25:44,585 - reranker - INFO - Initialized AdvancedCohereReranker with model: rerank-english-v3.0
+2025-07-20 11:25:44,585 - agent - INFO - Successfully initialized vector store and reranker
+2025-07-20 11:25:44,585 - agent - INFO - Starting search for query: 'What are people saying about HyperLiquid's vaults?' with top_k=15
+2025-07-20 11:25:45,524 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-07-20 11:25:47,255 - httpx - INFO - HTTP Request: POST https://aws-us-east-1.turbopuffer.com/v2/namespaces/hyperliquid-mentions/query "HTTP/1.1 200 OK"
+2025-07-20 11:25:47,267 - agent - INFO - Base search returned 15 results
+2025-07-20 11:25:47,956 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-07-20 11:25:48,304 - httpx - INFO - HTTP Request: POST https://aws-us-east-1.turbopuffer.com/v2/namespaces/hyperliquid-mentions/query "HTTP/1.1 200 OK"
+2025-07-20 11:25:48,977 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-07-20 11:25:49,213 - httpx - INFO - HTTP Request: POST https://aws-us-east-1.turbopuffer.com/v2/namespaces/hyperliquid-mentions/query "HTTP/1.1 200 OK"
+2025-07-20 11:25:49,215 - reranker - INFO - Starting Cohere reranking: query='What are people saying about HyperLiquid's vaults?...', results=16, top_k=15
+2025-07-20 11:25:49,694 - httpx - INFO - HTTP Request: POST https://api.cohere.com/v1/rerank "HTTP/1.1 200 OK"
+2025-07-20 11:25:49,701 - reranker - INFO - Processed 12 reranked results from 15 Cohere results
+2025-07-20 11:25:49,702 - reranker - INFO - Reranking completed: 12 results in 0.486s
+2025-07-20 11:25:49,702 - agent - INFO - Search metric added: What are people saying about HyperLiquid's vaults? - 12 results
+2025-07-20 11:25:56,658 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-20 11:25:57,782 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/telemetry/agent/run/create "HTTP/1.1 200 OK"
+2025-07-20 11:26:07,818 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-20 11:26:08,704 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/telemetry/agent/run/create "HTTP/1.1 200 OK"
+2025-07-20 11:26:16,729 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-20 11:26:17,630 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/telemetry/agent/run/create "HTTP/1.1 200 OK"
+2025-07-20 11:26:27,860 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-20 11:26:28,750 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/telemetry/agent/run/create "HTTP/1.1 200 OK"
+2025-07-20 11:26:30,041 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-20 11:26:30,048 - agent - INFO - Starting search for query: 'HyperLiquid vaults' with top_k=15
+2025-07-20 11:26:30,753 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-07-20 11:26:31,839 - httpx - INFO - HTTP Request: POST https://aws-us-east-1.turbopuffer.com/v2/namespaces/hyperliquid-mentions/query "HTTP/1.1 200 OK"
+2025-07-20 11:26:31,848 - agent - INFO - Base search returned 15 results
+2025-07-20 11:26:32,189 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-07-20 11:26:32,424 - httpx - INFO - HTTP Request: POST https://aws-us-east-1.turbopuffer.com/v2/namespaces/hyperliquid-mentions/query "HTTP/1.1 200 OK"
+2025-07-20 11:26:33,327 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2025-07-20 11:26:33,571 - httpx - INFO - HTTP Request: POST https://aws-us-east-1.turbopuffer.com/v2/namespaces/hyperliquid-mentions/query "HTTP/1.1 200 OK"
+2025-07-20 11:26:33,575 - reranker - INFO - Starting Cohere reranking: query='HyperLiquid vaults...', results=17, top_k=15
+2025-07-20 11:26:34,032 - httpx - INFO - HTTP Request: POST https://api.cohere.com/v1/rerank "HTTP/1.1 200 OK"
+2025-07-20 11:26:34,038 - reranker - INFO - Processed 12 reranked results from 15 Cohere results
+2025-07-20 11:26:34,039 - reranker - INFO - Reranking completed: 12 results in 0.463s
+2025-07-20 11:26:34,039 - agent - INFO - Search metric added: HyperLiquid vaults - 12 results
+2025-07-20 11:26:52,468 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-20 11:26:53,399 - httpx - INFO - HTTP Request: POST https://api.agno.com/v1/telemetry/agent/run/create "HTTP/1.1 200 OK"

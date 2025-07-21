@@ -29,7 +29,7 @@ class HyperLiquidAgent(Agent):
             model=OpenAIChat(
                 id=self.config.get('model_id', "gpt-4o"),
                 temperature=self.config.get('temperature', 0.1),
-                max_tokens=self.config.get('max_tokens', 6000)  # Increased for comprehensive responses
+                max_tokens=self.config.get('max_tokens', 8000)  # Increased for comprehensive responses
             ),
             tools=[self.search_mentions],
             instructions=self._get_instructions(),
@@ -38,15 +38,17 @@ class HyperLiquidAgent(Agent):
         )
     
     def _get_instructions(self) -> List[str]:
-        """Get agent instructions"""
+        """Get enhanced agent instructions for better frontend display"""
         return [
-            "You are a HyperLiquid market analysis expert.",
-            "Always search for information before answering queries.",
-            "Analyze ALL search results comprehensively.",
-            "Provide detailed reasoning for each significant finding.",
-            "Include specific quotes and source attributions.",
-            "Focus on factual information from credible sources.",
-            "Reference result numbers (Result #1, #2, etc.) in your analysis."
+            "You are a HyperLiquid market analysis expert with deep knowledge of DeFi, trading, and market dynamics.",
+            "Always search for information before answering queries to provide factual, data-driven insights.",
+            "Analyze ALL search results comprehensively and structure your response for clear frontend display.",
+            "Use proper markdown formatting with headers, bullet points, and emphasis for better readability.",
+            "Provide detailed reasoning with specific evidence and source attributions.",
+            "Include quantitative metrics, sentiment analysis, and actionable insights.",
+            "Structure your analysis with clear sections for easy frontend parsing.",
+            "Reference specific result numbers and include confidence levels for major findings.",
+            "Focus on market trends, sentiment patterns, and strategic implications."
         ]
     
     def search_mentions(self, query: str, top_k: int = 15) -> str:
@@ -211,7 +213,7 @@ class HyperLiquidAgent(Agent):
             return f"{oldest.strftime('%Y-%m-%d')} to {newest.strftime('%Y-%m-%d')}"
 
 def query_hyperliquid_agent(query: str, config: Optional[Dict[str, Any]] = None) -> None:
-    """Query HyperLiquid agent with comprehensive TurboPuffer data analysis"""
+    """Query HyperLiquid agent with enhanced formatting for frontend display"""
     
     print(f"\n🚀 **HYPERLIQUID MARKET INTELLIGENCE QUERY**")
     print(f"🔍 Query: {query}")
@@ -268,35 +270,82 @@ def query_hyperliquid_agent(query: str, config: Optional[Dict[str, Any]] = None)
             print(f"🧠 **Ranking Reasoning:** High semantic relevance to query (Cohere AI)")
             print("-" * 80)
         
-        # AI Agent Analysis
+        # Enhanced AI Agent Analysis with better formatting
         print(f"\n🤖 **AGNO AI AGENT COMPREHENSIVE ANALYSIS**")
         print("=" * 120)
         
         enhanced_query = f"""
-        Based on the {len(reranked_results)} TurboPuffer search results above for query: "{query}"
+        Based on the {len(reranked_results)} TurboPuffer search results for query: "{query}"
         
-        Provide comprehensive market intelligence analysis:
+        Provide a comprehensive, well-structured market intelligence analysis using proper markdown formatting:
         
-        🔍 **DETAILED REASONING:**
+        ### 🔍 **DETAILED REASONING:**
+        
+        #### Key Themes and Trends:
         - Analyze ALL {len(reranked_results)} results comprehensively
-        - Identify key themes, trends, and sentiment patterns
-        - Assess source credibility and temporal significance
-        - Highlight any conflicting information or consensus
-        - Provide confidence levels for major findings
+        - Identify major themes, sentiment patterns, and market trends
+        - Group findings by significance and relevance
+        - Assess temporal patterns and emerging developments
+        - Highlight consensus vs conflicting information
         
-        🔗 **SOURCE SNIPPETS WITH ATTRIBUTION:**
-        - Quote specific content from multiple results
-        - Reference exact result numbers (Result #1, #2, etc.)
-        - Include source names, dates, and Cohere scores
-        - Organize quotes by theme or importance
-        - Provide direct URLs for verification
+        #### Market Sentiment Analysis:
+        - Overall sentiment (bullish/bearish/neutral) with confidence level
+        - Key sentiment drivers and their impact
+        - Community perception and influencer opinions
+        - Risk factors and concerns identified
+        
+        #### Strategic Implications:
+        - What this means for HyperLiquid users and investors
+        - Actionable insights and recommendations
+        - Potential opportunities and threats
+        - Market positioning and competitive landscape
+        
+        ### 📊 **QUANTITATIVE INSIGHTS:**
+        
+        #### Key Metrics and Data Points:
+        - Extract specific numbers, percentages, and financial data
+        - Trading volumes, TVL changes, price movements
+        - User activity and adoption metrics
+        - Performance comparisons and benchmarks
+        
+        #### Confidence Assessment:
+        - **High Confidence** findings (supported by multiple credible sources)
+        - **Medium Confidence** findings (limited but credible evidence)
+        - **Low Confidence** findings (requires further verification)
+        
+        ### 🔗 **SOURCE ATTRIBUTION:**
+        
+        #### Primary Evidence (Quote key sources):
+        - Direct quotes from top 5-8 most relevant results
+        - Include source name, date, and result number
+        - Highlight credibility and authority of sources
+        - Note any potential bias or limitations
+        
+        #### Supporting Evidence:
+        - Additional corroborating information from other results
+        - Cross-references and validation from multiple sources
+        - Timeline of events and developments
+        
+        ### 💡 **EXECUTIVE SUMMARY:**
+        
+        #### Key Takeaways:
+        1. Most important finding with confidence level
+        2. Secondary insights and implications  
+        3. Risk factors and considerations
+        4. Recommended actions or monitoring points
+        
+        **Overall Assessment:** Provide a clear, actionable conclusion with confidence rating (1-10).
+        
+        ---
         
         **Analysis Requirements:**
-        - Reference at least 8-10 of the top results
-        - Include quantitative metrics where available
-        - Assess market sentiment and implications
-        - Identify actionable insights for stakeholders
-        - Provide overall confidence assessment
+        - Use proper markdown headers (###, ####) for structure
+        - Include bullet points and numbered lists for clarity
+        - Bold important terms and findings
+        - Reference specific result numbers (Result #1, #2, etc.)
+        - Provide quantitative confidence levels where possible
+        - Include specific URLs for key claims
+        - Structure for easy frontend parsing and display
         """
         
         response = agent.run(enhanced_query)
@@ -320,7 +369,7 @@ def query_hyperliquid_agent(query: str, config: Optional[Dict[str, Any]] = None)
 PRODUCTION_CONFIG = {
     'model_id': 'gpt-4o',
     'temperature': 0.1,
-    'max_tokens': 6000,  # Increased for comprehensive analysis
+    'max_tokens': 8000,  # Increased for comprehensive analysis
 }
 
 if __name__ == "__main__":

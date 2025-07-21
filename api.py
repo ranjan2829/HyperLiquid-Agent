@@ -57,13 +57,14 @@ app.add_middleware(
         "https://hyper-liquid-agent.vercel.app",
         "https://hyper-liquid-agent.vercel.app/",
         "https://*.vercel.app",
+        "https://*.ngrok.io",  # Add this for ngrok
+        "https://*.ngrok-free.app",  # Add this for ngrok free tier
         "http://13.203.192.105:8000",
         "https://13.203.192.105:8000"
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-    allowed_hosts=["*"],
 )
 # Pydantic models
 class SearchRequest(BaseModel):

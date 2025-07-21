@@ -13,6 +13,7 @@ from contextlib import asynccontextmanager
 import uvicorn
 import re
 from datetime import datetime, timedelta
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 
 from agent import HyperLiquidAgent, PRODUCTION_CONFIG
 from data_processor import DataProcessor
@@ -62,6 +63,8 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    allowed_hosts=["*"],
+    TrustedHostMiddleware,
 )
 # Pydantic models
 class SearchRequest(BaseModel):

@@ -53,14 +53,16 @@ app.add_middleware(
         "http://localhost:3000", 
         "http://localhost:5173", 
         "https://hyper-liquid-tawny.vercel.app",
-        "https://hyper-liquid-tawny.vercel.app/",
-        "https://*.vercel.app"
+        "https://hyper-liquid-agent.vercel.app",
+        "https://hyper-liquid-agent.vercel.app/",
+        "https://*.vercel.app",
+        "http://13.203.192.105:8000",
+        "https://13.203.192.105:8000"
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # Pydantic models
 class SearchRequest(BaseModel):
     query: str

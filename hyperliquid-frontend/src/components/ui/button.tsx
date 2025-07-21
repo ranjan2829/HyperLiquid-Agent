@@ -1,78 +1,44 @@
-'use client';
+import * as React from "react"
+import { cn } from "@/lib/utils"
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Search, Loader2 } from 'lucide-react';
-
-interface SearchFormProps {
-  onSearch: (query: string, topK: number) => void;
-  isLoading: boolean;
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'
+  size?: 'default' | 'sm' | 'lg' | 'icon'
 }
 
-export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
-  const [query, setQuery] = useState('');
-  const [topK, setTopK] = useState(15);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (query.trim()) {
-      onSearch(query.trim(), topK);
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant = 'default', size = 'default', ...props }, ref) => {
+    const variants = {
+      default: "bg-green-600 text-white hover:bg-green-700",
+      destructive: "bg-red-600 text-white hover:bg-red-700",
+      outline: "border border-green-600 text-green-600 hover:bg-green-50",
+      secondary: "bg-gray-100 text-gray-900 hover:bg-gray-200",
+      ghost: "hover:bg-green-100 text-green-600",
+      link: "underline-offset-4 hover:underline text-green-600"
     }
-  };
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="flex flex-col space-y-2">
-        <label htmlFor="query" className="text-sm font-medium text-gray-700">
-          Search Query
-        </label>
-        <div className="relative">
-          <input
-            id="query"
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Ask about HyperLiquid markets, vaults, or sentiment..."
-            className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            disabled={isLoading}
-          />
-          <Search className="absolute right-3 top-3 h-5 w-5 text-gray-400" />
-        </div>
-      </div>
+    const sizes = {
+      default: "h-10 px-4 py-2",
+      sm: "h-9 rounded-md px-3",
+      lg: "h-11 rounded-md px-8",
+      icon: "h-10 w-10"
+    }
 
-      <div className="flex items-center space-x-4">
-        <div className="flex items-center space-x-2">
-          <label htmlFor="topK" className="text-sm font-medium text-gray-700">
-            Results:
-          </label>
-          <select
-            id="topK"
-            value={topK}
-            onChange={(e) => setTopK(Number(e.target.value))}
-            className="px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            disabled={isLoading}
-          >
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={15}>15</option>
-            <option value={25}>25</option>
-            <option value={50}>50</option>
-          </select>
-        </div>
+    return (
+      <button
+        className={cn(
+          "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+          variants[variant],
+          sizes[size],
+          className
+        )}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+Button.displayName = "Button"
 
-        <Button
-          type="submit"
-          disabled={isLoading || !query.trim()}
-          className="flex items-center space-x-2"
-        >
-          {isLoading ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <Search className="h-4 w-4" />
-          )}
-          <span>Search</span>
-        </Button>
-      </div>
-    </form>
-  );
-}
+export { Button }

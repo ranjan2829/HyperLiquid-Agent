@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 interface SearchRequest {
@@ -25,7 +23,7 @@ interface SearchResponse {
     days_ago: number;
   }>;
   ai_analysis: string;
-  performance_metrics: Record<string, any>;
+  performance_metrics: Record<string, number | string | boolean>;
 }
 
 interface StatusResponse {
@@ -33,7 +31,7 @@ interface StatusResponse {
   agent_ready: boolean;
   vector_store_connected: boolean;
   total_documents?: number;
-  performance_metrics: Record<string, any>;
+  performance_metrics: Record<string, number | string | boolean>;
 }
 
 class APIClient {
@@ -86,8 +84,8 @@ class APIClient {
     return this.request<StatusResponse>('/status');
   }
 
-  async runDemo(): Promise<any> {
-    return this.request<any>('/demo');
+  async runDemo(): Promise<unknown> {
+    return this.request<unknown>('/demo');
   }
 }
 

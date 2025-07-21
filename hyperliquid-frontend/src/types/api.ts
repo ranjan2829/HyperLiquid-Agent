@@ -23,7 +23,7 @@ export interface SearchResponse {
   total_results: number;
   results: SearchResult[];
   ai_analysis: string;
-  performance_metrics: Record<string, any>;
+  performance_metrics: Record<string, number | string | boolean>;
 }
 
 export interface StatusResponse {
@@ -31,5 +31,10 @@ export interface StatusResponse {
   agent_ready: boolean;
   vector_store_connected: boolean;
   total_documents?: number;
-  performance_metrics: Record<string, any>;
+  performance_metrics: Record<string, number | string | boolean>;
+}
+
+export interface ApiResponse<T> {
+  data: T;
+  params: Record<string, unknown>;
 }

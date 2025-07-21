@@ -3,97 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { apiClient } from '@/lib/api';
 import { SearchResponse } from '@/types/api';
-import { Zap, Star, ExternalLink, Calendar, Clock, Activity, TrendingUp, Search, Loader2, ArrowUp, Command, Cpu, Database, Brain } from 'lucide-react';
-
-// Official HyperLiquid Logo Component - Based on token design
-const HyperLiquidLogo = ({ className = "h-8 w-8" }: { className?: string }) => (
-  <svg 
-    viewBox="0 0 100 100" 
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <defs>
-      {/* Main gradient - purple to blue like the token */}
-      <linearGradient id="tokenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#8B5CF6" />
-        <stop offset="30%" stopColor="#7C3AED" />
-        <stop offset="60%" stopColor="#6366F1" />
-        <stop offset="100%" stopColor="#3B82F6" />
-      </linearGradient>
-      
-      {/* Accent gradient */}
-      <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#10B981" />
-        <stop offset="100%" stopColor="#06B6D4" />
-      </linearGradient>
-
-      <filter id="glow">
-        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-        <feMerge> 
-          <feMergeNode in="coloredBlur"/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-    </defs>
-    
-    {/* Outer ring - like the token border */}
-    <circle 
-      cx="50" 
-      cy="50" 
-      r="45" 
-      fill="none" 
-      stroke="url(#tokenGradient)" 
-      strokeWidth="3" 
-      opacity="0.8"
-    />
-    
-    {/* Inner circle background */}
-    <circle 
-      cx="50" 
-      cy="50" 
-      r="38" 
-      fill="url(#tokenGradient)" 
-      opacity="0.1"
-    />
-    
-    {/* Main H Symbol - HyperLiquid style */}
-    <g fill="url(#tokenGradient)" filter="url(#glow)">
-      {/* Left vertical bar */}
-      <rect x="28" y="25" width="6" height="50" rx="3" />
-      
-      {/* Right vertical bar */}
-      <rect x="66" y="25" width="6" height="50" rx="3" />
-      
-      {/* Horizontal connector */}
-      <rect x="28" y="47" width="44" height="6" rx="3" />
-      
-      {/* Top accent - like liquid flow */}
-      <rect x="66" y="20" width="12" height="4" rx="2" opacity="0.8" />
-      
-      {/* Bottom accent - like liquid flow */}
-      <rect x="22" y="76" width="12" height="4" rx="2" opacity="0.8" />
-    </g>
-    
-    {/* Decorative elements - like the token design */}
-    <g fill="url(#accentGradient)" opacity="0.6">
-      {/* Top right dot */}
-      <circle cx="78" cy="22" r="2.5" />
-      
-      {/* Bottom left dot */}
-      <circle cx="22" cy="78" r="2.5" />
-      
-      {/* Small accent dots */}
-      <circle cx="82" cy="35" r="1.5" opacity="0.7" />
-      <circle cx="18" cy="65" r="1.5" opacity="0.7" />
-    </g>
-    
-    {/* Liquid flow lines - subtle */}
-    <g stroke="url(#accentGradient)" strokeWidth="1.5" fill="none" opacity="0.3">
-      <path d="M25 85 Q35 80 45 85 T65 85" />
-      <path d="M35 15 Q45 20 55 15 T75 15" />
-    </g>
-  </svg>
-);
+import { Zap, Star, ExternalLink, Calendar, Clock, Activity, Search, Loader2, ArrowUp, Command, Database, Brain } from 'lucide-react';
 
 export default function Home() {
   const [searchResults, setSearchResults] = useState<SearchResponse | null>(null);
@@ -310,9 +220,6 @@ export default function Home() {
     "What are people saying about HyperLiquid's vaults?",
     "Did anyone mention HYPE token and risk in the same sentence?",
     "Any influencer tweets about HyperLiquid recently?",
-    "HyperLiquid vaults",
-    "HYPE sentiment", 
-    "Trading volume",
   ];
 
   return (
@@ -444,7 +351,7 @@ export default function Home() {
             <Zap className="h-4 w-4 mr-2 text-green-400" />
             Quick searches:
           </span>
-          {exampleQueries.slice(0, 3).map((example, index) => (
+          {exampleQueries.map((example, index) => (
             <button
               key={index}
               onClick={() => {

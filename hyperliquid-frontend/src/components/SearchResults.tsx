@@ -11,7 +11,7 @@ interface SearchResultsProps {
 const formatText = (text: string) => {
   if (!text) return '';
   
-  let formatted = text
+  const formatted = text
     // Headers: ### text -> <h3>text</h3>
     .replace(/^### (.*$)/gm, '<h3 class="text-xl font-bold text-green-300 mt-6 mb-3 border-b border-green-500/30 pb-2">$1</h3>')
     .replace(/^#### (.*$)/gm, '<h4 class="text-lg font-bold text-green-400 mt-4 mb-2">$1</h4>')
@@ -84,7 +84,7 @@ export default function SearchResults({ data }: SearchResultsProps) {
       <div className="bg-black/40 border border-green-500/30 rounded-2xl p-6 backdrop-blur-xl">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold text-green-300">
-            "{data.query}"
+            &quot;{data.query}&quot;
           </h2>
           <div className="flex items-center space-x-4 text-sm">
             <span className="text-green-400">{data.results.length} results</span>

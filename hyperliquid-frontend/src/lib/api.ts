@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://bc325114acc7.ngrok-free.app";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://da74a3c885b5.ngrok-free.app";
 
 interface SearchRequest {
   query: string;

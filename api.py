@@ -61,10 +61,11 @@ app.add_middleware(
         "https://*.ngrok-free.app",  # Add this for ngrok free tier
         "https://d1d578d611ea.ngrok-free.app",  # Your specific ngrok URL
         "http://13.203.192.105:8000",
-        "https://13.203.192.105:8000"
+        "https://13.203.192.105:8000",
+        "*"  # Allow all origins temporarily for debugging
     ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 # Pydantic models

@@ -64,7 +64,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
     allowed_hosts=["*"],
-    TrustedHostMiddleware,
 )
 # Pydantic models
 class SearchRequest(BaseModel):

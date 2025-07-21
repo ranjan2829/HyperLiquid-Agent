@@ -241,7 +241,7 @@ export default function Home() {
           {/* Brand Text */}
           <div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-blue-400 to-green-400 bg-clip-text text-transparent">
-              HyperLiquid Intelligence
+              HyperLiquid Agent
             </h1>
             <div className="flex items-center space-x-3 mt-1">
               <div className="flex items-center space-x-1">
@@ -250,10 +250,9 @@ export default function Home() {
               </div>
               <div className="flex items-center space-x-1 px-2 py-1 bg-purple-500/10 border border-purple-500/30 rounded-full">
                 <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
-                <span className="text-purple-400 text-xs font-mono">v2.0</span>
               </div>
-              <div className="flex items-center space-x-1 px-2 py-1 bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-full">
-                <span className="text-purple-400 text-xs font-mono">Official</span>
+              <div className="flex items-center space-x-1">
+                <span className="text-gray-400 text-xs">v1.0</span>
               </div>
             </div>
           </div>
@@ -332,14 +331,14 @@ export default function Home() {
           <div className="flex items-center space-x-2">
             <div className="w-2 h-2 bg-green-400 rounded-full"></div>
             <div className="text-xs">
-              <div className="text-green-400 font-medium">AI Active</div>
+              <div className="text-green-400 font-medium">Active</div>
             </div>
           </div>
           
           {/* Data Pipeline */}
           <div className="flex items-center space-x-2 px-3 py-1 bg-green-500/10 border border-green-500/30 rounded-lg">
             <Database className="h-3 w-3 text-green-400" />
-            <span className="text-green-400 text-xs font-mono">Live</span>
+            <span className="text-green-400 text-xs font-mono"></span>
           </div>
         </div>
       </header>
